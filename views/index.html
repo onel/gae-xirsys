@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example fo Xirsys API with GAE middleman</title>
+</head>
+<body>
+    <h1>Example fo Xirsys API with GAE middleman</h1>
+
+    <script src="/js/xirsys/xirsys.core.js"></script>
+    <script src="/js/xirsys/xirsys.api.js"></script>
+    <script src="/js/xirsys/xirsys.signal.js"></script>
+    <script src="/js/xirsys/xirsys.simplewebrtc.connection.js"></script>
+    <script src="/js/xirsys/xirsys.simplewebrtc.js"></script>
+
+    <script type="text/javascript" src="/js/simplewebrtc.bundle.js"></script>
+
+    <script type="text/javascript">
+
+        var apirUrl = "/";
+        var room = "{{ room }}";
+
+        var webRTCCallback = function() {
+            
+            var webr = webrtc.ref;
+
+            webrtc.prepareRoom(room);
+
+            // when it's ready, join if we got a room
+            webr.on('readyToCall', function () {
+
+                if (room) {
+                    webr.joinRoom(room, function(err, roomDescription){
+
+                        if( err ) {
+                            console.warn(err);
+                        } else {
+                            console.log("Connected to room ", roomDescription);
+                        }
+                    });
+                }
+            });
+
+            webr.on('channelMessage', function (peer, label, data) {
+
+            });
+
+            webr.on('connectionReady', function (label) {
+                console.log(label);
+            });
+            webr.on('createdPeer', function (label) {
+                console.log(label);
+            });
+        };
+
+        var webrtc = new $xirsys.simplewebrtc( apirUrl );
+
+        webrtc.connect(
+            {
+                domain: "{{ domain }}",
+                application: "{{ application }}",
+                room: room,
+                secure: 1,
+                // username: new Date().getTime()
+            },
+            {
+                // Immediately ask for media access
+                autoRequestMedia: true,
+                debug: false,
+                detectSpeakingEvents: true,
+                autoAdjustMic: false,
+
+                enableDataChannels: true,
+
+                media: {
+                    video: false,
+                    audio: true
+                },
+            },
+            webRTCCallback
+        );
+    </script>
+
+</body>
+</html>

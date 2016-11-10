@@ -1,0 +1,33 @@
+
+runtime: python27
+api_version: 1
+threadsafe: false
+
+libraries:
+- name: webapp2
+  version: "2.5.2"
+- name: jinja2
+  version: latest
+
+handlers:
+
+- url: /css
+  mime_type: "text/css"
+  static_dir: /css
+
+- url: /js
+  static_dir: js
+
+- url: /.*
+  secure: always
+  script: main.app
+
+
+env_variables:
+
+  # XirSys API
+  XIRSYS_IDENT: ""
+  XIRSYS_SECRET: ""
+  XIRSYS_DOMAIN: ""
+  XIRSYS_APPLICATION: ""
+  XIRSYS_ROOM: ""
