@@ -55,7 +55,7 @@ def prepare_url(endpoint, username=None):
         "secret": os.environ.get("XIRSYS_SECRET"),
         "domain": os.environ.get("XIRSYS_DOMAIN"),
         "application": os.environ.get("XIRSYS_APPLICATION"),
-        "room": "default", # os.environ.get(""),
+        "room": os.environ.get("XIRSYS_ROOM"),,
         "secure": 1
     }
 
